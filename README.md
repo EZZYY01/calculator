@@ -1,16 +1,22 @@
-# calculator
+# Calculator App Project
 
-A new Flutter project.
+## GitHub Repository Link
+[GitHub Repository](https://github.com/SantoshKcy/Calculator_application.git)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Output Example
 
-A few resources to get you started if this is your first Flutter project:
+### Example 1: 4 + 4
+Here is a screenshot showing the output when you input `4 + 4`:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![Screenshot 1](assets/images/ss.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Input**: `55 * 6`  
+**Output**: `55 * 6 = 330.0`
+
+
+## How to Run the Project
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/SantoshKcy/Calculator_application.git

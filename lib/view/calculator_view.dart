@@ -33,35 +33,41 @@ class _CalculatorViewState extends State<CalculatorView> {
   ];
 
   final _key = GlobalKey<FormState>();
-  String displayText = ""; // To hold the current input/output value
-  String previousText = ""; // For saving the previous input for operations
-  String operation = ""; // To store the current operation (like +, -, *, /)
+  String displayText = ""; // Current input/output value
+  String previousText = ""; // Previous input for operations
+  String operation = ""; // Current operation
 
   void _handleButtonPress(String value) {
     setState(() {
       if (value == "C") {
-        displayText = ""; // Clear the input
+        // Clear everything
+        displayText = "";
+        previousText = "";
+        operation = "";
       } else if (value == "<-") {
+        // Backspace functionality
         if (displayText.isNotEmpty) {
-          displayText =
-              displayText.substring(0, displayText.length - 1); // Backspace
+          displayText = displayText.substring(0, displayText.length - 1);
         }
       } else if (value == "=") {
-        _evaluateExpression(); // Evaluate the final expression
+        // Evaluate the expression
+        _evaluateExpression();
       } else if (value == "+" ||
           value == "-" ||
           value == "*" ||
           value == "/" ||
           value == "%") {
-        if (displayText.isNotEmpty) {
+        // Operator pressed
+        if (displayText.isNotEmpty && operation.isEmpty) {
           previousText = displayText; // Save the current number
-          displayText = ""; // Reset displayText for next number
           operation = value; // Set the operation
+          displayText += " $value "; // Append operator to the display
         }
       } else {
-        displayText += value; // Add the number or symbol to the display
+        // Append numbers or symbols to the display
+        displayText += value;
       }
-      _textController.text = displayText; // Update the text field
+      _textController.text = displayText; // Update text field
     });
   }
 
@@ -69,11 +75,13 @@ class _CalculatorViewState extends State<CalculatorView> {
     if (previousText.isNotEmpty &&
         displayText.isNotEmpty &&
         operation.isNotEmpty) {
+      // Extract the second number from the display
+      String currentInput = displayText.split(operation).last.trim();
       double num1 = double.tryParse(previousText) ?? 0.0;
-      double num2 = double.tryParse(displayText) ?? 0.0;
+      double num2 = double.tryParse(currentInput) ?? 0.0;
       double result;
 
-      // Perform calculation based on the operation
+      // Perform the calculation
       switch (operation) {
         case "+":
           result = num1 + num2;
@@ -85,19 +93,26 @@ class _CalculatorViewState extends State<CalculatorView> {
           result = num1 * num2;
           break;
         case "/":
-          result = num2 != 0 ? num1 / num2 : 0.0; // Avoid division by zero
+          result =
+              num2 != 0 ? num1 / num2 : double.nan; // Handle division by zero
           break;
         case "%":
           result = num1 % num2;
           break;
         default:
           result = 0.0;
-          break;
       }
 
-      displayText = result.toString(); // Display the result
-      operation = ""; // Clear the operation
-      previousText = ""; // Reset the previous number
+      // Update display with the full equation and result
+      if (result.isNaN) {
+        displayText = "Error";
+      } else {
+        displayText = "$previousText $operation $currentInput = $result";
+      }
+
+      // Reset the operation and previous number
+      operation = "";
+      previousText = "";
     }
   }
 
@@ -114,7 +129,6 @@ class _CalculatorViewState extends State<CalculatorView> {
           child: Column(
             children: [
               TextFormField(
-                textDirection: TextDirection.rtl,
                 controller: _textController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -126,9 +140,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                 readOnly: true, // Make the text field read-only
                 textAlign: TextAlign.right, // Align text to the right
               ),
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
