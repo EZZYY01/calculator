@@ -1,7 +1,7 @@
 # Calculator App Project
 
 ## GitHub Repository Link
-[GitHub Repository](https://github.com/SantoshKcy/Calculator_application.git)
+[GitHub Repository](https://github.com/EZZYY01/calculator.git)
 
 
 ## Output Example
@@ -19,4 +19,4 @@ Here is a screenshot showing the output when you input `4 + 4`:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/SantoshKcy/Calculator_application.git
+   git clone https://github.com/EZZYY01/calculator.git
